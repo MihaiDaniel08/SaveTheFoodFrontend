@@ -40,6 +40,7 @@ const FriendsComponent = () => {
             const response = await fetch(`http://localhost:5179/friendgroups/${activeUserId}`);
             const friendGroups = await response.json();
             setFriendGroups(friendGroups);
+            console.log(friendGroups);
             setOpenGroup(friendGroups.reduce((acc, group) => ({ ...acc, [group.id]: false }), {}));
         }
 
@@ -60,10 +61,11 @@ const FriendsComponent = () => {
 
     const handleAddFriend = async () => {
         let friendEmail = newFriendEmail;
+        console.log(friendEmail);
         const response = await fetch(`http://localhost:5179/friends/${activeUserId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify( friendEmail ),
+            body: JSON.stringify( {friendEmail} ),
         });
         const newFriend = await response.json();
         setFriends([...friends, newFriend]);
@@ -74,7 +76,7 @@ const FriendsComponent = () => {
         const response = await fetch(`http://localhost:5179/friendgroups/${groupId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify( friendEmail ),
+            body: JSON.stringify( {friendEmail} ),
         });
         if (response.ok) {
             const updatedGroups = friendGroups.map(group => {
@@ -141,7 +143,7 @@ const FriendsComponent = () => {
                                     </ListItem>
                                     <Collapse in={openGroup[group.id]} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
-                                            {group.friends.map((friend) => (
+                                            {group.friends?.map((friend) => (
                                                 <ListItem key={friend.id} sx={{ pl: 4 }}>
                                                     <ListItemText primary={friend.name} />
                                                     <IconButton onClick={() => handleRemoveFriendFromGroup(group.id, friend.id)}>

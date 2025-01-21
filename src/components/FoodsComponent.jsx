@@ -16,7 +16,7 @@ import {
     Collapse,
     Grid2 as Grid
 } from "@mui/material";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import {ExpandMore, ExpandLess} from "@mui/icons-material";
 
 export const FoodsComponent = ({ ownerId }) => {
     const [foodsWithoutCategories, setFoodsWithoutCategories] = useState([]);
@@ -125,7 +125,7 @@ export const FoodsComponent = ({ ownerId }) => {
 
     const handleAddFoodToCategory = async (foodId, foodCategoryId) => {
         console.log({foodId, foodCategoryId});
-        const response = await fetch(`http://localhost:5179/foodcategories/addfoodtocategory`, {
+        const response = await fetch(`http://localhost:5179/addfoodtocategory`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ foodCategoryId, foodId }),
@@ -190,62 +190,78 @@ export const FoodsComponent = ({ ownerId }) => {
             />
 
             {showAddFoodForm && (
-                <Box sx={{ marginTop: 2 }}>
+                <Box sx={{ width: '50%', marginTop: 2 }}>
                     <Typography variant="h6">Add Food</Typography>
-                    <TextField
-                        label="Name"
-                        value={newFood.name}
-                        onChange={(e) => setNewFood({ ...newFood, name: e.target.value })}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Description"
-                        value={newFood.description}
-                        onChange={(e) => setNewFood({ ...newFood, description: e.target.value })}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Expiration Date"
-                        type="date"
-                        value={newFood.expirationDate}
-                        onChange={(e) => setNewFood({ ...newFood, expirationDate: e.target.value })}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Purchase Date"
-                        type="date"
-                        value={newFood.purchaseDate}
-                        onChange={(e) => setNewFood({ ...newFood, purchaseDate: e.target.value })}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Quantity"
-                        type="number"
-                        value={newFood.quantity}
-                        onChange={(e) => setNewFood({ ...newFood, quantity: parseInt(e.target.value, 10) })}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Category</InputLabel>
-                        <Select
-                            value={newFood.foodCategoryId}
-                            onChange={(e) => setNewFood({ ...newFood, foodCategoryId: e.target.value })}
-                        >
-                            {foodCategories.map((category) => (
-                                <MenuItem key={category.id} value={category.id}>
-                                    {category.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <Button variant="contained" color="primary" onClick={handleAddFood}>
-                        Add Food
-                    </Button>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Name"
+                                value={newFood.name}
+                                onChange={(e) => setNewFood({ ...newFood, name: e.target.value })}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Description"
+                                value={newFood.description}
+                                onChange={(e) => setNewFood({ ...newFood, description: e.target.value })}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Expiration Date"
+                                focused={true}
+                                type="date"
+                                value={newFood.expirationDate}
+                                onChange={(e) => setNewFood({ ...newFood, expirationDate: e.target.value })}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Purchase Date"
+                                focused={true}
+                                type="date"
+                                value={newFood.purchaseDate}
+                                onChange={(e) => setNewFood({ ...newFood, purchaseDate: e.target.value })}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Quantity"
+                                type="number"
+                                value={newFood.quantity}
+                                onChange={(e) => setNewFood({ ...newFood, quantity: parseInt(e.target.value, 10) })}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid>
+                            <FormControl fullWidth={true} margin="normal">
+                                <InputLabel>Category</InputLabel>
+                                <Select fullWidth
+                                    value={newFood.foodCategoryId}
+                                    onChange={(e) => setNewFood({ ...newFood, foodCategoryId: e.target.value })}
+                                >
+                                    {foodCategories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>
+                                            {category.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Button variant="contained" color="primary" onClick={handleAddFood}>
+                                Add Food
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Box>
             )}
             <Typography variant="h4" sx={{ marginTop: 4 }}>Food Categories</Typography>
